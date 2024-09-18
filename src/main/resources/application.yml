@@ -42,3 +42,8 @@ management:
     health:
       enabled: true
       show-details: always
+logging:
+  level:
+    web: DEBUG
+#    com.netflix: WARN
+    com.titov: DEBUG
