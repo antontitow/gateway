@@ -21,11 +21,12 @@ public class TrackingFilter implements GlobalFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         val headers = exchange.getRequest().getHeaders();
         if (headers.get(TRACK_ID) == null) {
-            log.debug("add track id");
+        val id= UUID.randomUUID().toString();
+            log.debug("add track id" + id);
             exchange = exchange.mutate().request(exchange
                             .getRequest()
                             .mutate()
-                            .header(TRACK_ID, UUID.randomUUID().toString())
+                            .header(TRACK_ID, id)
                             .build())
                     .build();
         }

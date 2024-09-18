@@ -18,7 +18,6 @@ public class ResponseFilter {
         return (exchange, chain) -> {
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
                 HttpHeaders requestHeaders = exchange.getRequest().getHeaders();
-                log.debug("Adding the correlation id to the outbound headers. {}");
                 if (requestHeaders.get(TrackingFilter.TRACK_ID) != null) {
                     log.debug("TRACK ID " + requestHeaders.get(TrackingFilter.TRACK_ID).stream().findFirst().get());
                     exchange.getResponse().getHeaders().add(TrackingFilter.TRACK_ID, UUID.randomUUID().toString());
@@ -26,7 +25,6 @@ public class ResponseFilter {
                     log.debug("NO TRACK ID");
                     exchange.getResponse().getHeaders().add(TrackingFilter.TRACK_ID, UUID.randomUUID().toString());
                 }
-                log.debug("Completing outgoing request for {}.", exchange.getRequest().getURI());
             }));
         };
     }
