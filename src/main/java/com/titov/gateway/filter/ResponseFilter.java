@@ -19,10 +19,10 @@ public class ResponseFilter {
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
                 HttpHeaders requestHeaders = exchange.getRequest().getHeaders();
                 if (requestHeaders.get(TrackingFilter.TRACK_ID) != null) {
-                    log.debug("TRACK ID " + requestHeaders.get(TrackingFilter.TRACK_ID).stream().findFirst().get());
+                    log.info("TRACK ID " + requestHeaders.get(TrackingFilter.TRACK_ID).stream().findFirst().get());
                     exchange.getResponse().getHeaders().add(TrackingFilter.TRACK_ID, UUID.randomUUID().toString());
                 } else {
-                    log.debug("NO TRACK ID");
+                    log.info("NO TRACK ID");
                     exchange.getResponse().getHeaders().add(TrackingFilter.TRACK_ID, UUID.randomUUID().toString());
                 }
             }));

@@ -22,7 +22,7 @@ public class TrackingFilter implements GlobalFilter {
         val headers = exchange.getRequest().getHeaders();
         if (headers.get(TRACK_ID) == null) {
         val id= UUID.randomUUID().toString();
-            log.debug("add track id" + id);
+            log.info("add track id" + id);
             exchange = exchange.mutate().request(exchange
                             .getRequest()
                             .mutate()

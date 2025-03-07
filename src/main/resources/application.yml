@@ -20,30 +20,33 @@ spring:
             - Method=GET
           filters:
             - RewritePath=/client/(?<path>.*), /$\{path}
+        - id: kafka-redis
+          uri: lb://kafka-redis
+          predicates:
+            - Path=/kafka-redis/**
+            - Method=GET
+          filters:
+            - RewritePath=/kafka-redis/(?<path>.*), /$\{path}
     config:
       uri:
         - http://localhost:8082
       fail-fast: false
+    compatibility-verifier:
+      enabled: false
   config:
     import: configserver:http://localhost:8082
 
-management:
-  endpoints:
-    enabled-by-default: true
-    web:
-#      base-path: /
-      exposure:
-        include:
-          - '*'
-  endpoint:
-    gateway:
-      enabled: true
-
-    health:
-      enabled: true
-      show-details: always
 logging:
   level:
     web: DEBUG
 #    com.netflix: WARN
     com.titov: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - 'info'
+          - 'metric'
+          - 'prometheus'
+          - 'health'
